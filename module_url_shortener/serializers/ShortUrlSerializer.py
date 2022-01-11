@@ -1,11 +1,13 @@
 from datetime import date, timedelta
 
+from environ import environ
 from rest_framework import serializers, status
 from rest_framework.response import Response
 
 from module_url_shortener.models.ShortUrl import ShortUrl
 from module_url_shortener.helper import create_random_code
 
+env = environ.Env()
 
 class ShortUrlSerializer(serializers.ModelSerializer):
 
@@ -16,6 +18,10 @@ class ShortUrlSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ('created', 'updated')
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.base_url = env('BASE_URL')
+
     def create(self, validated_data):
         if 'original_url' not in validated_data:
             return Response("{'original_url': 'Not Found'}", status=status.HTTP_404_NOT_FOUND)
@@ -24,20 +30,23 @@ class ShortUrlSerializer(serializers.ModelSerializer):
 
     def create_shortened_url(self, validated_data):
         if 'custom_url' in validated_data:
-            q = self.Meta.model.objects.filter(custom_url=validated_data['custom_url'])
+            custom_url = '/u/{}'.format(validated_data['custom_url'])
 
+            q = self.Meta.model.objects.filter(custom_url=custom_url)
             if q.count() == 0:
-                validated_data['short_url'] = validated_data['custom_url']
+                custom_url = '/u/{}'.format(validated_data['custom_url'])
+                validated_data['short_url'] = custom_url
         else:
             if 'short_url' not in validated_data:
                 random_code = create_random_code()
-                if self.Meta.model.objects.filter(short_url=random_code).exists():
+                short_url = '/u/{}'.format(random_code)
+
+                if self.Meta.model.objects.filter(short_url=short_url).exists():
                     return self.create_shortened_url(validated_data)
 
-                validated_data['short_url'] = random_code
+                validated_data['short_url'] = short_url
+        if 'expiration' not in validated_data:
+            validated_data['expiration'] = date.today() + timedelta(days=7)
 
-            if 'expiration' not in validated_data:
-                validated_data['expiration'] = date.today() + timedelta(days=7)
-
-        short_url = super(ShortUrlSerializer, self).create(validated_data)
-        return short_url
+        new_short_url = super(ShortUrlSerializer, self).create(validated_data)
+        return new_short_url

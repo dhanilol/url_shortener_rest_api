@@ -18,6 +18,7 @@ class ShortUrl(models.Model):
 
     @property
     def is_expired(self):
-        if datetime.now > self.expiration:
+        if datetime.now().date() > self.expiration.date():
+            self.delete()
             return True
         return False
