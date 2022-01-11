@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'module_user',
+    'module_url_shortener'
 ]
 
 REST_FRAMEWORK = {
