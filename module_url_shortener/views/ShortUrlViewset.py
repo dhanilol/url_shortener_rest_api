@@ -12,6 +12,3 @@ class ShortUrlViewset(viewsets.ModelViewSet):
     ordering_fields = '__all__'
     search_fields = {'id', 'original_url', 'short_url'}
 
-    def get_queryset(self):
-        q = self.queryset.filter(user=None)
-        return q
