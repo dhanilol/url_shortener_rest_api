@@ -9,6 +9,10 @@ $ git clone https://github.com/dhanilol/url_shortener_rest_api
 
 After cloning the repository and with Python installed in your local machine. 
 
+Set up the .env file based on the .env.sample file located on the project root folder.
+ * Add the Django Secure Key to its attribute: SECRET_KEY
+ * Optional: Set the database connection if you're using it (or use the projects default)
+
 Create a Virtual Environment
 
 ```bash
@@ -33,7 +37,18 @@ use the package manager [pip](https://pip.pypa.io/en/stable/) to install the req
 $ pip install -r requirements.txt
 ```
 
-Start the server
+This project has a default database that was used during development.
+If you rather use an external one, connect its credentials on the .env file and run the following commands:
+
+```bash
+$ python manage.py makemigrations
+```
+```bash
+$ python manage.py migrate
+```
+
+
+###Start the server
 
 ```bash
 $ python manage.py runserver
