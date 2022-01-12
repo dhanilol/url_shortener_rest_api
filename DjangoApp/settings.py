@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'module_user',
+    'module_url_shortener'
 ]
 
 REST_FRAMEWORK = {
@@ -66,6 +68,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+AUTH_USER_MODEL = 'module_user.User'
 
 ROOT_URLCONF = 'DjangoApp.urls'
 
