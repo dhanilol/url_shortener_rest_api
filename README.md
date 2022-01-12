@@ -37,7 +37,7 @@ use the package manager [pip](https://pip.pypa.io/en/stable/) to install the req
 $ pip install -r requirements.txt
 ```
 
-This project has a default database that was used during development.
+This project has an example database (db.sqlite3) that was used during development.
 If you rather use an external one, connect its credentials on the .env file and run the following commands:
 
 ```bash
@@ -46,7 +46,11 @@ $ python manage.py makemigrations
 ```bash
 $ python manage.py migrate
 ```
-
+If the example database is what you're going to use it, there's no need to add credentials on the .env file.
+ * Admin credentials on example db:
+   * access: http://127.0.0.1:8000/admin 
+   * user: admin
+   * password: admin
 
 ###Start the server
 
@@ -56,18 +60,19 @@ $ python manage.py runserver
 
 ## Usage
 
-With the server running you can access [http://127.0.0.1:8000/module_url_shortener/](http://127.0.0.1:8000/module_url_shortener/) to access the Django REST Framework Api Root
+With the server running you can access [http://127.0.0.1:8000/module_url_shortener/](http://127.0.0.1:8000/module_url_shortener/) to access the Django REST Framework Api Root;
+
+Or http://127.0.0.1:8000/module_url_shortener/short_url/ to access the URLs list and the form to add new ones.
+
 
 If you rather use a service like [Postman](https://www.postman.com/downloads/). You can make your requests with the following:
 
 * **URL**
 
-  <_http://127.0.0.1:8000/module_url_shortener/short_url/_>
+  http://127.0.0.1:8000/module_url_shortener/short_url/
 
 * **Method:**
   
-  <_The request type_>
-
   `GET` | `POST`
 
 ```python
